@@ -12,6 +12,6 @@
 
 ### Run docker container
 
-* docker run -d --name otus -p 8000:8080 dockerHubAccountName/otus:tag
+* docker run -d --name otus -p 8000:8000 dockerHubAccountName/otus:tag
 
 
