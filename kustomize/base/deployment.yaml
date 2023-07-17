@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otus
+#  annotations:
+#  labels:
+
+spec:
+  # Макстмальное количество времени в секундах, в течении которого может быть выполнен деплой
+  progressDeadlineSeconds: 450
+  # Количество реплик  - по дефолту 1
+  replicas: 2
+  selector:
+    matchLabel:
+      app: otus
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # Число подов, которое может быть создано во время обновления сверх лимита
+      maxSurge: 1
+      # Максимальное кол-во подов, которое может быть недоступно во время обновления
+      maxUnavailable: 0
+    template:
+      metadata:
+        labels:
+          app: otus
+      spec:
+        containers:
+          - name: otus
+#            securityContext:
+            image: 12345678000/otus:10.07.amd64
+            command:
+              - java
+              - Duser.timezone=UTC
+              - Xmx1712m
+              - -XX:ExitOutOfMemoryError
+              - -XX:NativeMemoryTracking=summary
+              - -jar
+              - /app/otus.jar
+              - -XX:+AlwaysPreTouch
+              - -XX:UseG1GC
+              - -XX:+ScavengeBeforeFullGC
+            resources:
+              limits:
+                memory: "1Gi"
+                cpu: "400m"
+              requested:
+                memory: "1Gi"
+                cpu: "400m"
+            ports:
+              - name: http
+                containerPort: 8000
+                protocol: TCP
+#              - name: https
+#                containerPort: 8000
+#                protocol: TCP
+#              - name: actuator
+#                containerPort: 8081
+#                protocol: TCP
+        volumes:
+          - name: tmp
+            emptyDir: { }
+          - name: application-volume
+            configMap: application-otus

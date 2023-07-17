@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: otus
+spec:
+  selector:
+    app: otus
+  ports:
+    - port: 8000
+      name: http
+      targetPort: http
