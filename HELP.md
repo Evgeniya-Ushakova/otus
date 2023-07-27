@@ -15,3 +15,9 @@
 * docker run -d --name otus -p 8000:8000 dockerHubAccountName/otus:tag
 
 
+### Start in kube
+
+* minikube start (по дефолту стартует с драйвером докер) - запускает кластер
+* kubectl apply -f kustomize/base - применить все манифесты разом (если наймспейс не ждефолтный добавить -n namespaceName)
+* прописать а opt/etc/hosts ip мниникуба (minikube ip) - добавить днс arch.homework
+   * (для mac m1 нужно использовать туннель) - minikube service otus - выведет урл по которому можно достуаться до сервиса
