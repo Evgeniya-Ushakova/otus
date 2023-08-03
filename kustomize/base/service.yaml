@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: otus
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: otus
   ports:
-    - port: 8000
-      name: http
-      targetPort: 8000
+    - protocol: TCP
+      port: 8000
+      targetPort: http

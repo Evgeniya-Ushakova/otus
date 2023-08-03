@@ -55,9 +55,9 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
-#              - name: https
-#                containerPort: 8000
-#                protocol: TCP
+            - name: https
+              containerPort: 8000
+              protocol: TCP
 #              - name: actuator
 #                containerPort: 8081
 #                protocol: TCP
