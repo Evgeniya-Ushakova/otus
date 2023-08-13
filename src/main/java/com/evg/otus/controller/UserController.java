@@ -8,8 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
-@RestController(value = "/user")
+@RestController
 @RequiredArgsConstructor
+@RequestMapping(value = "/user")
 public class UserController {
 
     private static final String USER_PATH = "/{userId}";

@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "evgpostgre"
+spec:
+  template:
+    metadata:
+      name: "evgpostgre"
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: post-install-job
+        image: postgres:14
+        env:
+          - name: POSTGRES_PASSWORD
+            value: "evgpwd"
+        command:
+          - sh
+          - "-c"
+          - |
+            psql postgres://evguser:evgpwd@evgpostgresdb-postgresql/evg <<'EOF'
+              create table evg.user (id bigint primary key, name varchar, first_name varchar, last_name varchar, email varchar, phone varchar);
+              insert into evg.user (id, name, first_name, last_name, email, phone) values (1, 'Michael', 'Stonebraker', null, 'ms@gmail.com', '+79000008080');
+            EOF
+
+  backoffLimit: 0
+

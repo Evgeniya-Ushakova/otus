@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(CreateUserRequest request) {
         User user = new User();
-        user.setUsername(request.getUsername());
+        user.setName(request.getUsername());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByIdOrElseThrow(userId);
         return GetUserResponse.builder()
                 .id(user.getId())
-                .username(user.getUsername())
+                .username(user.getName())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())

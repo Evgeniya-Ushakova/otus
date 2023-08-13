@@ -4,16 +4,16 @@ package com.evg.otus.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Data
 @Entity
+@Table(schema = "evg", name = "user")
 @EqualsAndHashCode(callSuper = true)
 public class User extends EntityBase<Long> {
 
-    @Column(name = "USERNAME", columnDefinition = "VARCHAR(50)")
-    private String username;
+    @Column(name = "NAME", columnDefinition = "VARCHAR(50)")
+    private String name;
     @Column(name = "FIRST_NAME", columnDefinition = "VARCHAR(50")
     private String firstName;
     @Column(name = "LAST_NAME", columnDefinition = "VARCHAR(50")

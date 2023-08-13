@@ -25,11 +25,18 @@
   (создает неймспейс и в неа запускает ингресс контроллер хелмом)
  * kubectl apply -f kustomize/base -n m - применить все манифесты разом (если наймспейс не дефолтный добавить -n namespaceName)
  * прописать в opt/etc/hosts ip миникуба (minikube ip) - добавить днс arch.homework
-   * (для mac m1 нужно использовать туннель) - minikube service otus - выведет урл по которому можно достучаться до сервиса
+   * (для mac m1 нужно использовать туннель) - minikube service otus - выведет урл по которому можно достучаться до сервиса - его тоже можно прописать в хостс
+
+### Start app in kube with postgresql
+
+* все команды в инструкции расчитаны на выполнение из корневой директории проекта - otus
+
+* helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql
+* kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml -f  kustomize/base/ingress.yaml  
 
 
 ### More useful command
 
 * kubectl scale --replicas=0 deployment/nginx-ingress-nginx-controller-admission -n m - опустить ресурс до нужного количества replicas=count 
-* kubectl delete namespace m - удадить неймспейс
+* kubectl delete namespace m -
 
