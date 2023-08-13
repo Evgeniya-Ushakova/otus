@@ -29,9 +29,14 @@
 
 ### Start app in kube with postgresql
 
-* все команды в инструкции расчитаны на выполнение из корневой директории проекта - otus
+* все команды в инструкции расчитаны на выполнение из корневой директории проекта /otus в дефолтном неймспейсе 
 
-* helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql
+*  установка ингресса, если его еще нет:
+  * helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
+  * helm repo update
+  * helm install nginx ingress-nginx/ingress-nginx --namespace default -f kustomize/nginx-ingress.yaml
+
+* helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql 
 * kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/secret.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml -f  kustomize/base/ingress.yaml  
 
 
@@ -39,4 +44,6 @@
 
 * kubectl scale --replicas=0 deployment/nginx-ingress-nginx-controller-admission -n m - опустить ресурс до нужного количества replicas=count 
 * kubectl delete namespace m -
+* kubectl port-forward --namespace default svc/evgpostgresdb-postgresql 5432:5432 - проброс портов
+
 
