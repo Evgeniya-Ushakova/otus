@@ -5,8 +5,6 @@ spring:
   jpa:
     show-sql: true
     database: postgresql
-#    hibernate:
-#      ddl-auto: update
     properties:
       org:
         hibernate:
@@ -20,13 +18,14 @@ spring:
           use_structured_entries: false
           use_minimal_puts: false
         format_sql: true
-#        default_schema: public
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: ${DATASOURCE_URL}
 #    url: jdbc:postgresql://127.0.0.1:5432/evg?user=evguser&password=evgpwd
-    username: evguser
-    password: evgpwd
+    username: ${DATABASE_USER}
+#    username: evguser
+    password: ${DATABASE_PASSWORD}
+#    password: evgpwd
     driverClassName: org.postgresql.Driver
 #    continue-on-error: : true
     hikari:

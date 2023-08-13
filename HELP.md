@@ -32,7 +32,7 @@
 * все команды в инструкции расчитаны на выполнение из корневой директории проекта - otus
 
 * helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql
-* kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml -f  kustomize/base/ingress.yaml  
+* kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/secret.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml -f  kustomize/base/ingress.yaml  
 
 
 ### More useful command
