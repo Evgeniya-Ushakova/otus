@@ -1,5 +1,6 @@
 package com.evg.otus.service.impl;
 
+import com.evg.otus.dto.BaseResponse;
 import com.evg.otus.dto.user.request.CreateUserRequest;
 import com.evg.otus.dto.user.request.UpdateUserRequest;
 import com.evg.otus.dto.user.response.GetUserResponse;
@@ -18,17 +19,24 @@ import java.util.Optional;
 @Slf4j(topic = "USER_SERVICE")
 public class UserServiceImpl implements UserService {
 
+    private final static int SUCCESS_CODE = 0;
+
     private final UserRepository userRepository;
 
     @Override
-    public void create(CreateUserRequest request) {
+    public BaseResponse create(CreateUserRequest request) {
         User user = new User();
         user.setName(request.getUsername());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        return new BaseResponse(SUCCESS_CODE,
+                String.format("Create %s %s saved succeed with id = %s",
+                        savedUser.getName(),
+                        savedUser.getFirstName(),
+                        savedUser.getId()));
     }
 
     @Override
@@ -45,21 +53,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long userId) {
+    public BaseResponse delete(Long userId) {
         userRepository.deleteById(userId);
+        return new BaseResponse(SUCCESS_CODE, "deleted succeed");
     }
 
     @Override
     @Transactional
-    public void update(Long userId, UpdateUserRequest request) {
+    public BaseResponse update(Long userId, UpdateUserRequest request) {
         User user = userRepository.findByIdOrElseThrow(userId);
 
-        Optional.of(request.getFirstName()).ifPresent(user::setFirstName);
-        Optional.of(request.getLastName()).ifPresent(user::setLastName);
-        Optional.of(request.getEmail()).ifPresent(user::setEmail);
-        Optional.of(request.getPhone()).ifPresent(user::setPhone);
+        Optional.ofNullable(request.getFirstName()).ifPresent(user::setFirstName);
+        Optional.ofNullable(request.getLastName()).ifPresent(user::setLastName);
+        Optional.ofNullable(request.getEmail()).ifPresent(user::setEmail);
+        Optional.ofNullable(request.getPhone()).ifPresent(user::setPhone);
 
         userRepository.save(user);
+        return new BaseResponse(SUCCESS_CODE, "updated succeed");
     }
 
 }
