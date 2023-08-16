@@ -40,7 +40,7 @@
 * kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/secret.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml -f  kustomize/base/ingress.yaml -n evg 
 
 
-### More useful command
+### More useful commands
 
 * kubectl scale --replicas=0 deployment/nginx-ingress-nginx-controller-admission -n evg - опустить ресурс до нужного количества replicas=count 
 * kubectl delete namespace evg
