@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: otus
-          image: 12345678000/otuspg:13.08.amd64
+          image: 12345678000/otuspg:13.08
           command:
             - java
             - -Duser.timezone=UTC
@@ -52,7 +52,6 @@ spec:
                 secretKeyRef:
                   name: otus-secret
                   key: DATABASE_URI
-#              value: psql postgres://evguser:evgpwd@evgpostgresdb-postgresql/evg
           ports:
             - name: http
               containerPort: 8000
