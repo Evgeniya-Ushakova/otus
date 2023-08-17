@@ -25,14 +25,9 @@ spec:
       labels:
         app: otus
     spec:
-#      hostAliases:
-#        - ip: "127.0.0.1"
-#          hostnames:
-#            - "arch.homework"
       containers:
         - name: otus
-#            securityContext:
-          image: 12345678000/otus:10.07.amd64
+          image: 12345678000/otus:16.08.amd64
           command:
             - java
             - -Duser.timezone=UTC
@@ -51,6 +46,13 @@ spec:
             requests:
               memory: "1Gi"
               cpu: "400m"
+          env:
+            - name: DATASOURCE_URL
+#              value: jdbc:postgresql://@evgpostgresdb-postgresql:5432/evg?user=evguser&password=evgpwd
+              valueFrom:
+                secretKeyRef:
+                  name: otus-secret
+                  key: DATABASE_URI
           ports:
             - name: http
               containerPort: 8000

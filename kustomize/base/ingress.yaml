@@ -4,18 +4,28 @@ metadata:
   name: otus
   annotations:
 #    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+#    nginx.ingress.kubernetes.io/use-regex: "true"
+#    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   ingressClassName: nginx
   rules:
     - host: arch.homework
       http:
         paths:
-          - path: /otusapp/Evgeniya($|/)(.*)
+          - path: /
             pathType: ImplementationSpecific
             backend:
               service:
                 name: otus
                 port:
                   number: 8000
+#    - host: arch.homework
+#      http:
+#        paths:
+#          - path: /otusapp/Evgeniya($|/)(.*)
+#            pathType: ImplementationSpecific
+#            backend:
+#              service:
+#                name: otus
+#                port:
+#                  number: 8000
