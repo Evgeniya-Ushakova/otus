@@ -29,15 +29,15 @@
 
 ### Start app in kube with postgresql
 
-* все команды в инструкции расчитаны на выполнение из корневой директории проекта /otus в неймспейсе m
-* kubectl create namespace m - создание неймспейса
+* все команды в инструкции расчитаны на выполнение из корневой директории проекта /otus в неймспейсе evg
+* kubectl create namespace n - создание неймспейса
 *  установка ингресс контроллера, если его еще нет:
    * helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
    * helm repo update
-   * helm install nginx ingress-nginx/ingress-nginx --namespace m -f kustomize/nginx-ingress.yaml
+   * helm install nginx ingress-nginx/ingress-nginx --namespace evg -f kustomize/nginx-ingress.yaml
 
-* helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql -n m
-* kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/secret.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml -f  kustomize/base/ingress.yaml -n m 
+* helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql -n evg
+* kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/secret.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml -f  kustomize/base/ingress.yaml -n evg 
 
 ### Start app with monitoring
 
@@ -56,11 +56,11 @@
 
 
 
-### More useful command
+### More useful commands
 
-* kubectl scale --replicas=0 deployment/nginx-ingress-nginx-controller-admission -n m - опустить ресурс до нужного количества replicas=count 
-* kubectl delete namespace m -
-* kubectl port-forward --namespace default svc/evgpostgresdb-postgresql 5432:5432 - проброс портов
+* kubectl scale --replicas=0 deployment/nginx-ingress-nginx-controller-admission -n evg - опустить ресурс до нужного количества replicas=count 
+* kubectl delete namespace evg
+* kubectl port-forward --namespace evg svc/evgpostgresdb-postgresql 5432:5432 - проброс портов
 
 
 ### links 

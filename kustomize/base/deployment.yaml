@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: otus
-          image: 12345678000/otuspg:13.08.amd64
+          image: 12345678000/otus:16.08.amd64
           command:
             - java
             - -Duser.timezone=UTC
@@ -48,11 +48,11 @@ spec:
               cpu: "400m"
           env:
             - name: DATASOURCE_URL
+#              value: jdbc:postgresql://@evgpostgresdb-postgresql:5432/evg?user=evguser&password=evgpwd
               valueFrom:
                 secretKeyRef:
                   name: otus-secret
                   key: DATABASE_URI
-#              value: psql postgres://evguser:evgpwd@evgpostgresdb-postgresql/evg
           ports:
             - name: http
               containerPort: 8000
