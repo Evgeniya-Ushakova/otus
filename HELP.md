@@ -39,6 +39,22 @@
 * helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql -n m
 * kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/secret.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml -f  kustomize/base/ingress.yaml -n m 
 
+### Start app with monitoring
+
+* kubectl create namespace monitoring
+* helm repo add prometheus-community https://prometheus-community.github.io/helm-charts - добавить репозиторий для прометеуса
+* helm repo add stable https://charts.helm.sh/stable
+* helm repo update
+* helm install prometheus prometheus-community/kube-prometheus-stack -f kustomize/monitoring/prometheus.yaml --atomic -n monitoring
+   * helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx - если еще не добавлен - добавить
+   * helm repo update
+   * helm install nginx ingress-nginx/ingress-nginx -f kustomize/nginx-ingress.yaml --atomic -n monitoring
+* kubectl port-forward service/prometheus-grafana 9000:80 n monitoring
+* войти в графану - localhost:9000/ - admin/prom-operator
+* kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 - зайдем в прометеус по localhost:9090/
+* 
+
+
 
 ### More useful command
 
@@ -47,3 +63,10 @@
 * kubectl port-forward --namespace default svc/evgpostgresdb-postgresql 5432:5432 - проброс портов
 
 
+### links 
+ 
+*https://prometheus.io/docs/prometheus/latest/querying/basics/ - тут про promql
+
+
+https://robustperception.io/how-does-a-prometheus-counter-work - про каунтеры почитать
+https://www.youtube.com/watch?v=67Ulrq6DxwA  - видео одного из контрибьюторов prometheus
