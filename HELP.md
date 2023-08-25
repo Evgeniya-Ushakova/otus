@@ -76,3 +76,10 @@
 * https://docs.google.com/document/d/1mtcoHMheUKbv9n_eARTqt9eNsySN4_Xmp85B6ia8_J8/edit
 
 * https://github.com/izhigalko/otus-demo-apigw
+
+### delete
+
+* kubectl delete all --all  -n monitoring
+* helm uninstall nginx -n monitoring
+* helm delete evgpostgresdb -n monitoring
+* helm delete prometheus -n monitoring
