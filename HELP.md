@@ -41,6 +41,7 @@
 
 ### Start app with monitoring
 
+* все команды в инструкции расчитаны на выполнение из корневой директории проекта /otus в неймспейсе monitoring
 * kubectl create namespace monitoring
 * helm repo add prometheus-community https://prometheus-community.github.io/helm-charts - добавить репозиторий для прометеуса
 * helm repo add stable https://charts.helm.sh/stable
@@ -49,9 +50,10 @@
    * helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx - если еще не добавлен - добавить
    * helm repo update
    * helm install nginx ingress-nginx/ingress-nginx -f kustomize/nginx-ingress.yaml --atomic -n monitoring
-* kubectl port-forward service/prometheus-grafana 9000:80 -n monitoring
-* войти в графану - localhost:9000/ - admin/prom-operator
+* kubectl port-forward service/prometheus-grafana 9000:80 -n monitoring - войти в графану - localhost:9000/ - admin/prom-operator
 * kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 -n monitoring - зайдем в прометеус по localhost:9090/
+* helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql -n monitoring
+* kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/secret.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml -f  kustomize/base/ingress.yaml -n monitoring
 
 
 
