@@ -49,10 +49,9 @@
    * helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx - если еще не добавлен - добавить
    * helm repo update
    * helm install nginx ingress-nginx/ingress-nginx -f kustomize/nginx-ingress.yaml --atomic -n monitoring
-* kubectl port-forward service/prometheus-grafana 9000:80 n monitoring
+* kubectl port-forward service/prometheus-grafana 9000:80 -n monitoring
 * войти в графану - localhost:9000/ - admin/prom-operator
-* kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 - зайдем в прометеус по localhost:9090/
-* 
+* kubectl port-forward service/prometheus-kube-prometheus-prometheus 9090 -n monitoring - зайдем в прометеус по localhost:9090/
 
 
 
@@ -61,12 +60,17 @@
 * kubectl scale --replicas=0 deployment/nginx-ingress-nginx-controller-admission -n evg - опустить ресурс до нужного количества replicas=count 
 * kubectl delete namespace evg
 * kubectl port-forward --namespace evg svc/evgpostgresdb-postgresql 5432:5432 - проброс портов
-
+* lsof -i tcp:8080 - какой процесс занимет порт
+* helm install otus ./otus-chart --atomic
 
 ### links 
- 
-*https://prometheus.io/docs/prometheus/latest/querying/basics/ - тут про promql
 
+* https://prometheus.io/docs/prometheus/latest/querying/basics/ - тут про promql
 
-https://robustperception.io/how-does-a-prometheus-counter-work - про каунтеры почитать
-https://www.youtube.com/watch?v=67Ulrq6DxwA  - видео одного из контрибьюторов prometheus
+* https://robustperception.io/how-does-a-prometheus-counter-work - про каунтеры почитать
+* https://www.youtube.com/watch?v=67Ulrq6DxwA  - видео одного из контрибьюторов prometheus
+
+* https://github.com/schetinnikov-otus/arch-labs/blob/master/prometheus/hello-chart/templates/initdb.yaml
+* https://docs.google.com/document/d/1mtcoHMheUKbv9n_eARTqt9eNsySN4_Xmp85B6ia8_J8/edit
+
+* https://github.com/izhigalko/otus-demo-apigw

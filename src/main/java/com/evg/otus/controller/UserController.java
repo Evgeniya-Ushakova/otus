@@ -29,19 +29,19 @@ public class UserController {
     }
 
     @GetMapping(USER_PATH)
-    @Timed(value = "userController.get")
+    @Timed(value = "userController", extraTags = {"methodName","get"})
     public GetUserResponse get(@PathVariable Long userId) {
         return userService.getUser(userId);
     }
 
     @DeleteMapping(USER_PATH)
-    @Timed(value = "userController.delete")
+    @Timed(value = "userController", extraTags = {"methodName","delete"})
     public BaseResponse delete(@PathVariable Long userId) {
         return userService.delete(userId);
     }
 
     @PutMapping(USER_PATH)
-    @Timed(value = "userController.update")
+    @Timed(value = "userController", extraTags = {"methodName","update"})
     public BaseResponse update(@PathVariable Long userId, @Valid @NonNull @RequestBody UpdateUserRequest request) {
         return userService.update(userId, request);
     }

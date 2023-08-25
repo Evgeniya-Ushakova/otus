@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: "otus-service-monitor"
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: "otus"
+  endpoints:
+    - interval: 15s
+      port: http
+      path: /actuator/prometheus
