@@ -21,6 +21,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: ${DATASOURCE_URL}
+#    url: jdbc:postgresql://127.0.0.1:5432/evg?user=evguser&password=evgpwd
 #    url: jdbc:postgresql://@evgpostgresdb-postgresql:5432/evg?user=evguser&password=evgpwd
     username: ${DATABASE_USER}
 #    username: evguser
@@ -38,6 +39,26 @@ spring:
       register-mbeans: true
   transaction:
     default-timeout: 200
+
+management:
+  server:
+    port: 8000
+  health:
+    defaults:
+      enabled: true
+  info:
+    git:
+      mode: FULL
+  endpoint:
+    health:
+      show-details: never
+  trace:
+    http:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,loggers
 
 
 

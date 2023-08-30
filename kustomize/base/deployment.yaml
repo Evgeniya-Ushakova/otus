@@ -9,7 +9,7 @@ spec:
   # Макстмальное количество времени в секундах, в течении которого может быть выполнен деплой
   progressDeadlineSeconds: 450
   # Количество реплик  - по дефолту 1
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: otus
@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
         - name: otus
-          image: 12345678000/otus:16.08.amd64
+          image: 12345678000/otus:21.08.amd64
           command:
             - java
             - -Duser.timezone=UTC
@@ -57,9 +57,9 @@ spec:
             - name: http
               containerPort: 8000
               protocol: TCP
-            - name: https
-              containerPort: 8000
-              protocol: TCP
+#            - name: https
+#              containerPort: 8000
+#              protocol: TCP
 #              - name: actuator
 #                containerPort: 8081
 #                protocol: TCP
