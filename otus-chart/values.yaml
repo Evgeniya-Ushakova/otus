@@ -5,7 +5,7 @@
 replicaCount: 2
 
 image:
-  repository: 12345678000/otus:16.08.amd64kubect
+  repository: 12345678000/otus:21.08.amd64
 #  pullPolicy: IfNotPresent
 #  # Overrides the image tag whose default is the chart appVersion.
 #  tag: ""

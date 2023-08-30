@@ -7,10 +7,10 @@ type: application
 version: 0.5.0
 appVersion: 0.1.0
 
-dependencies:
-  - name: postgresql
-    version: 14.x
-    repository: oci://registry-1.docker.io/bitnamicharts/postgresql
-    condition: postgresql.enabled
-    tags:
-      - evg-database
+#dependencies:
+#  - name: postgresql
+#    version: 14.x
+#    repository: oci://registry-1.docker.io/bitnamicharts/postgresql
+#    condition: postgresql.enabled
+#    tags:
+#      - evg-database

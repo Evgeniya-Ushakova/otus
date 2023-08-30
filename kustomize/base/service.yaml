@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: otus
 spec:
+  clusterIP: 192.168.49.2
   type: NodePort
   selector:
     app: otus
