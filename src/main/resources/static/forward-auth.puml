@@ -17,6 +17,12 @@ alt #LawnGreen "Пользователь авторизован"
 "Api gateway" -> "Otus Service" : Запрос с заголовками из авторизации
 "Otus Service" -> "User" : Ответ
 
+else #LightBlue "Пользователь авторизован - пытается получить доступ к не своим данным"
+
+"Auth service" -> "Api gateway" : Авторизован - 200
+"Api gateway" -> "Otus Service" : Запрос с заголовками из авторизации
+"Otus Service" -> "User" : Запрещено 403
+
 else #Orange "Пользователь не авторизован"
 
 "Auth service" -> "Api gateway" : Не авторизован - 401
