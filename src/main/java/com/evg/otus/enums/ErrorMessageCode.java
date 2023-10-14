@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ErrorMessageCode {
 
-    DATA_NOT_FOUND(1);
+    DATA_NOT_FOUND(1),
+    DUPLICATE_DATA(2),
+    INTERNAL_SERVER_ERROR(99);
 
     int code;
 

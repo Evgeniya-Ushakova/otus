@@ -2,6 +2,26 @@ server:
   port: 8000
 
 spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          custom:
+#            client-id: sso-otus
+#            client-secret: sso-otus-secret
+#            scope: read,write
+#            authorization-grant-type: authorization_code
+#            redirect-uri: http://localhost:8000/health/
+#        provider:
+#          custom:
+#            authorization-uri: http://localhost:8000/health/
+#            token-uri: http://localhost:8000/health/
+#            user-info-uri: http://localhost:8000/health/
+#            user-name-attribute: preferred_username
+#  thymeleaf:
+#    cache: false
+#  cache:
+#    type: NONE
   jpa:
     show-sql: true
     database: postgresql
@@ -24,6 +44,7 @@ spring:
 #    url: jdbc:postgresql://@evgpostgresdb-postgresql:5432/evg?user=evguser&password=evgpwd
     username: ${DATABASE_USER}
 #    username: evguser
+#    url: jdbc:postgresql://127.0.0.1:5432/evg?user=evguser&password=evgpwd
     password: ${DATABASE_PASSWORD}
 #    password: evgpwd
     driverClassName: org.postgresql.Driver

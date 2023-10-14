@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: otus
+  name: auth-service
   namespace: evg
   labels:
-    app: otus
+    app: auth-service
 
 spec:
   # Макстмальное количество времени в секундах, в течении которого может быть выполнен деплой
@@ -13,22 +13,22 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: otus
+      app: auth-service
   strategy:
     type: RollingUpdate
     rollingUpdate:
       # Число подов, которое может быть создано во время обновления сверх лимита
       maxSurge: 1
       # Максимальное кол-во подов, которое может быть недоступно во время обновления
-      maxUnavailable: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
-        app: otus
+        app: auth-service
     spec:
       containers:
-        - name: otus
-          image: 12345678000/otus:07.10amd64-2
+        - name: auth-service
+          image: 12345678000/auth-service:07.10amd64-2
           command:
             - java
             - -Duser.timezone=UTC
@@ -36,7 +36,7 @@ spec:
             - -XX:+ExitOnOutOfMemoryError
             - -XX:NativeMemoryTracking=summary
             - -jar
-            - /app/otus.jar
+            - /app/auth-service.jar
             - -XX:+AlwaysPreTouch
             - -XX:UseG1GC
             - -XX:+ScavengeBeforeFullGC
@@ -52,7 +52,7 @@ spec:
 #              value: jdbc:postgresql://@evgpostgresdb-postgresql:5432/evg?user=evguser&password=evgpwd
               valueFrom:
                 secretKeyRef:
-                  name: otus-secret
+                  name: auth-service-secret
                   key: DATABASE_URI
           ports:
             - name: http
@@ -68,4 +68,4 @@ spec:
 #        - name: tmp
 #          emptyDir: { }
 #        - name: application-volume
-#          configMap: application-otus
+#          configMap: application-auth-service

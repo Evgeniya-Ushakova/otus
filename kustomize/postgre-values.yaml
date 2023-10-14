@@ -20,3 +20,5 @@ global:
 #  service:
 #    type: LoadBalancer
 #    port: 5432
+image:
+  tag: 15.4.0-debian-11-r52

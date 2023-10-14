@@ -1,0 +1,37 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: auth
+spec:
+  forwardAuth:
+    address:  http://auth-service.evg.svc.cluster.local/auth/login
+    authResponseHeaders:
+      - x-auth-token
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: auth-routes
+spec:
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/user`)
+      priority: 10 # Добавляем маршрут с большим приоритетом, чтобы эти настройки применились поверх предыдущих
+      services:
+        - kind: Service
+          name: otus
+          namespace: evg
+          port: 8000
+    - kind: Rule
+      match: PathPrefix(`/user/`)
+      priority: 9 # Добавляем маршрут с большим приоритетом, чтобы эти настройки применились поверх предыдущих
+      services:
+        - kind: Service
+          name: otus
+          namespace: evg
+          port: 8000
+      middlewares:
+        - name: auth # Включаем forward-auth
+          namespace: evg

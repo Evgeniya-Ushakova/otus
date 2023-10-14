@@ -35,7 +35,7 @@ dependencies {
     //spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.1'
 
     //cloud
 //    implementation "org.springframework.cloud:spring-cloud-starter-sleuth:${springCloudVersion}"
@@ -59,8 +59,14 @@ dependencies {
     implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.6.1.Final'
 
     //lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    //auth
+      implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.1'
+//    implementation 'org.springframework.security:spring-security-oauth2-client'
+//    implementation 'org.springframework:spring-webflux'
+//    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

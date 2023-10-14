@@ -11,5 +11,10 @@ public class Controller {
     public HealthResponse getHealth() {
         return new HealthResponse("OK");
     }
+
+    @GetMapping("/")
+    public HealthResponse getBaseUrl() {
+        return new HealthResponse("Hello! You in app! Send some request for work)");
+    }
     
 }

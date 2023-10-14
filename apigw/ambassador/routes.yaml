@@ -1,0 +1,45 @@
+---
+apiVersion: getambassador.io/v3alpha1
+kind: Listener
+metadata:
+  name: listener-80
+  namespace: evg
+spec:
+  port: 80
+  protocol: HTTP
+  securityModel: XFP
+  hostBinding:
+    namespace:
+      from: ALL
+
+---
+apiVersion: getambassador.io/v2
+kind: Host
+metadata:
+  name: wildcard
+spec:
+  hostname: "*" # Выключаем использование https
+  acmeProvider:
+    authority: none
+  requestPolicy:
+    insecure:
+      action: Route
+
+---
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  otus
+spec:
+  prefix: / # Направляем все запросы к otus
+  service: otus.evg
+
+---
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  auth-service
+spec:
+  prefix: /auth/ # Направляем запросы c префиксом /auth к auth-service
+  service: auth-service.evg
+  bypass_auth: true # Отключаем аутентификацию на запросы к auth-service
