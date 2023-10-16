@@ -21,8 +21,8 @@ spec:
             psql postgres://evguser:evgpwd@evgpostgresdb-postgresql/evg <<'EOF'
               create schema if not exists evg;
               create sequence if not exists hibernate_sequence START 2;
-              create table if not exists evg.user (id bigint primary key, name varchar, first_name varchar, last_name varchar, email varchar, phone varchar);
-              insert into evg.user (id, name, first_name, last_name, email, phone) values (1, 'Michael', 'Stonebraker', null, 'ms@gmail.com', '+79000008080');
+              create table if not exists evg.user (id bigint primary key, name varchar, first_name varchar, last_name varchar, email varchar, phone varchar, password varchar);
+              insert into evg.user (id, name, first_name, last_name, email, phone, password) values (1, 'Michael', 'Stonebraker', null, 'ms@gmail.com', '+79000008080', 'mst');
             EOF
 
   backoffLimit: 0

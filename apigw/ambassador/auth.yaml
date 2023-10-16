@@ -1,0 +1,30 @@
+---
+apiVersion: getambassador.io/v2
+kind: Filter
+metadata:
+  name: auth-service
+spec:
+  External:
+    auth_service: "auth-service.evg"
+    path_prefix: "/auth*"
+    allowed_authorization_headers:
+      - "x-username"
+      - "x-auth-token"
+
+---
+apiVersion: getambassador.io/v2
+kind: FilterPolicy
+metadata:
+  name: auth-check
+spec:
+  rules:
+    - host: "*"
+      path: "/auth*" # Разрешаем доступ к /auth всем запросам
+      filters: []
+    - host: "*"
+      path: "/user" # Разрешаем доступ к /user - создание пользователя -  всем запросам
+      filters: []
+    - host: "*"
+      path: "*"
+      filters:
+        - name: "auth-service"  # Применяем auth-service фильтр к ресурсам
