@@ -18,7 +18,7 @@ import static com.evg.otus.enums.ErrorMessageCode.INTERNAL_SERVER_ERROR;
 public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({DataNotFoundException.class, CommonException.class})
+    @ExceptionHandler({DataNotFoundException.class, BadRequestException.class})
     public BaseResponse dataNotFoundException(OtusException e) {
         return new BaseResponse(e.getCode(), e.getMessage());
     }

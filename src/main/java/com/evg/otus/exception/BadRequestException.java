@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @RequiredArgsConstructor
-public class CommonException extends RuntimeException implements OtusException {
+public class BadRequestException extends RuntimeException implements OtusException {
 
     private int code;
     private String message;
 
-    public CommonException(int code, String message) {
+    public BadRequestException(int code, String message) {
         super(message);
         this.code = code;
         this.message = message;

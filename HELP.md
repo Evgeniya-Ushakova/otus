@@ -52,7 +52,10 @@
 * helm repo update
 * helm install traefik traefik/traefik -f apigw/traefik/traefik.yaml -n evg
 * kubectl apply -f apigw/traefik/routes.yaml -f apigw/traefik/auth.yaml  -n evg
-* minikube service -n evg traefik 
+* minikube service -n evg traefik
+
+### Start idempotent order
+
 
 ### Start with ambassador
 
