@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: otus
-          image: 12345678000/otus:24.10amd64
+          image: 12345678000/otus:24.10amd64-1
           command:
             - java
             - -Duser.timezone=UTC

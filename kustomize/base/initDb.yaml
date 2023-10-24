@@ -28,7 +28,7 @@ spec:
               create table if not exists evg.product (id bigint  primary key, name varchar, description varchar, cost decimal);
               insert into evg.product (id, name, description, cost) values (1, 'Лампа Алладина', 'Джин внутри исполнит любых три ваших желания', 100.05);
               insert into evg.product (id, name, description, cost) values (2, 'Ковер-самолет', 'Умчит прочь в Арабскую ночь', 75.05);
-              insert into evg.product (id, name, description, cost) values (3, 'Дом на колесах', 'Дом там. где ты', 175.89);
+              insert into evg.product (id, name, description, cost) values (3, 'Дом на колесах', 'Дом там, где ты', 175.89);
               create table if not exists evg.order_compound (PRODUCT_ID BIGINT, ORDER_ID BIGINT, COUNT numeric);
             EOF
 
