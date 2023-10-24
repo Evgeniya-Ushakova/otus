@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
     public CreateOrderResponse create(CreateOrderRequest request, String idempotencyKey) {
         if (orderRepository.existsByUserIdAndOrderKey(request.getUserId(), idempotencyKey)) {
             throw new BadRequestException(ErrorMessageCode.BAD_REQUEST.getCode(),
-                    String.format("Order %s already exists", idempotencyKey));
+                    String.format("Order %s already exists for user %s", idempotencyKey, request.getUserId()));
         }
 
         User user = userRepository.findByIdOrElseThrow(request.getUserId());
