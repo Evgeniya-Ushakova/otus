@@ -20,24 +20,28 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({DataNotFoundException.class, BadRequestException.class})
     public BaseResponse dataNotFoundException(OtusException e) {
+        LOGGER.error("dataNotFoundException {}", e);
         return new BaseResponse(e.getCode(), e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Throwable.class})
     public BaseResponse exceptions(Exception e) {
+        LOGGER.error("exception {}", e);
         return new BaseResponse(INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler({BadCredentialsException.class})
     public BaseResponse exceptions(BadCredentialsException e) {
+        LOGGER.error("badCredentialsException {}", e);
         return new BaseResponse(HttpStatus.FORBIDDEN.value(), e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({MissingRequestHeaderException.class})
     public BaseResponse exceptions(MissingRequestHeaderException e) {
+        LOGGER.error("missingRequestHeaderException {}", e);
         return new BaseResponse(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
     }
 
