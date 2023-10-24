@@ -23,6 +23,7 @@ spec:
               create sequence if not exists hibernate_sequence start 2;
               create table if not exists evg.user (id bigint primary key, name varchar, first_name varchar, last_name varchar, email varchar, phone varchar, password varchar, order_count bigint);
               insert into evg.user (id, name, first_name, last_name, email, phone, password, order_count) values (1, 'michael', 'stonebraker', null, 'ms@gmail.com', '+79000008080', 'mst', 0);
+              insert into evg.user (id, name, first_name, last_name, email, phone, password, order_count) values (2, 'alex', 'n', null, 'alex@gmail.com', '+79000007070', 'alx', 0);
               create table if not exists evg.order (id bigint  primary key, user_id bigint, order_key varchar, total_price decimal);
               create table if not exists evg.product (id bigint  primary key, name varchar, description varchar, cost decimal);
               insert into evg.product (id, name, description, cost) values (1, 'Лампа Алладина', 'Джин внутри исполнит любых три ваших желания', 100.05);
