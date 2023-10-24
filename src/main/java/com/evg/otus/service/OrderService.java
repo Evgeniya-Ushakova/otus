@@ -7,5 +7,5 @@ import com.evg.otus.dto.order.response.GenerateOrderNumberResponse;
 public interface OrderService {
     GenerateOrderNumberResponse generateOrderNumber(Long userId);
 
-    CreateOrderResponse create(CreateOrderRequest request);
+    CreateOrderResponse create(CreateOrderRequest request, String idempotencyKey);
 }

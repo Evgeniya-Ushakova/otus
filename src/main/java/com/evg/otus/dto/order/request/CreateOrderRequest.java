@@ -1,9 +1,13 @@
 package com.evg.otus.dto.order.request;
 
+import com.evg.otus.dto.order.ProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -11,7 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateOrderRequest {
 
-    private List<Long> productIds;
+    @NotEmpty
+    private List<ProductDto> products;
+    @NotNull
+    private BigDecimal totalPrice;
+    @NotNull
     private Long userId;
 
 }

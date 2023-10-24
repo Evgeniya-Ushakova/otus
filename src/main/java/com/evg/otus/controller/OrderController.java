@@ -17,7 +17,7 @@ public class OrderController {
 
     private final static String IDEMPOTENCY_KEY_HEADER = "Idempotency-Key";
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @GetMapping("/generate-order-number")
     public GenerateOrderNumberResponse generateOrderNumber(@RequestParam Long userId) {

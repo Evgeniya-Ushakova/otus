@@ -1,14 +1,15 @@
 package com.evg.otus.service.impl;
 
+import com.evg.otus.dto.order.ProductDto;
 import com.evg.otus.dto.order.request.CreateOrderRequest;
 import com.evg.otus.dto.order.response.CreateOrderResponse;
 import com.evg.otus.dto.order.response.GenerateOrderNumberResponse;
-import com.evg.otus.entity.Order;
-import com.evg.otus.entity.OrderProductKey;
-import com.evg.otus.entity.User;
+import com.evg.otus.entity.*;
 import com.evg.otus.enums.ErrorMessageCode;
 import com.evg.otus.exception.BadRequestException;
+import com.evg.otus.repository.OrderCompoundsRepository;
 import com.evg.otus.repository.OrderRepository;
+import com.evg.otus.repository.ProductRepository;
 import com.evg.otus.repository.UserRepository;
 import com.evg.otus.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,9 @@ import java.util.stream.Collectors;
 @Slf4j(topic = "ORDER_SERVICE")
 public class OrderServiceImpl implements OrderService {
 
+
+    private final OrderCompoundsRepository orderCompoundsRepository;
+    private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
 
@@ -38,31 +42,50 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public CreateOrderResponse create(CreateOrderRequest request, String idempotencyKey) {
-        if (orderRepository.existsByUserIdAndOrderId(request.getUserId(), idempotencyKey)) {
+        if (orderRepository.existsByUserIdAndOrderKey(request.getUserId(), idempotencyKey)) {
             throw new BadRequestException(ErrorMessageCode.BAD_REQUEST.getCode(),
                     String.format("Order %s already exists", idempotencyKey));
         }
 
-        Order order = new Order();
-        order.
-
-        List<> orders = request.getProductIds()
-                .stream()
-                .map(productId -> {
-                    OrderProductKey orderProductKey = new OrderProductKey();
-                    orderProductKey.setProductId(productId);
-                    orderProductKey.setOrderId();
-                    return order;
-                })
-                .collect(Collectors.toList());
-        orderRepository.saveAll(orders);
+        User user = userRepository.findByIdOrElseThrow(request.getUserId());
         user.setOrderCount(user.getOrderCount() + 1);
         user = userRepository.save(user);
+
+        Order order = new Order();
+        order.setOrderKey(idempotencyKey);
+        order.setTotalPrice(request.getTotalPrice());
+        order.setUserId(user.getId());
+        orderRepository.save(order);
+
+        List<OrderCompound> orderCompounds = getProducts(request.getProducts(), order);
+        order.setProducts(orderCompounds);
+        orderRepository.save(order);
+
         LOGGER.info("Count of orders: {}, userId: {}", user.getOrderCount(), user.getId());
         return CreateOrderResponse.builder()
-                .orderId(request.getOrderId())
+                .orderId(order.getId())
+                .orderKey(idempotencyKey)
                 .message("Order created succeed")
                 .build();
+    }
+
+    private List<OrderCompound> getProducts(List<ProductDto> productDtos,
+                                            Order order) {
+        List<OrderCompound> orderCompounds = productDtos
+                .stream()
+                .map(productDto -> {
+                    OrderProductKey orderProductKey = new OrderProductKey();
+                    orderProductKey.setProductId(productDto.getId());
+                    orderProductKey.setOrderId(order.getId());
+                    OrderCompound orderCompound = new OrderCompound();
+                    orderCompound.setId(orderProductKey);
+                    orderCompound.setCount(productDto.getCount());
+                    orderCompound.setOrder(order);
+                    orderCompound.setProduct(productRepository.findByIdOrElseThrow(productDto.getId()));
+                    return orderCompound;
+                })
+                .collect(Collectors.toList());
+        return orderCompoundsRepository.saveAll(orderCompounds);
     }
 
 }

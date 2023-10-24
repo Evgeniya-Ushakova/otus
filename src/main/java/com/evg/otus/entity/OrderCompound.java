@@ -3,7 +3,6 @@ package com.evg.otus.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -14,13 +13,16 @@ public class OrderCompound {
     private OrderProductKey id;
 
     @ManyToOne
-    @JoinColumn(name = "ID")
+    @MapsId("orderId")
+    @JoinColumn(name = "ORDER_ID")
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "ID")
+    @MapsId("productId")
+    @JoinColumn(name = "PRODUCT_ID")
     private Product product;
 
+    @Column(name = "COUNT", columnDefinition = "numeric")
     private Long count;
 
 }
