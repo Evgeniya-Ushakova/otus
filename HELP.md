@@ -57,6 +57,7 @@
 ### Start idempotent order
 
 * Все команды в инструкции расчитаны на выполнение из корневой директории проекта /otus в неймспейсе evg
+* для простоты запуска здесь не используется сервис авторизации
 
 * kubectl create namespace evg
 * helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql -n evg
