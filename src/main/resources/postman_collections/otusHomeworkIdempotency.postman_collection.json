@@ -206,7 +206,7 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "localhost:8000",
+			"value": "arch.homework",
 			"type": "string"
 		}
 	]
