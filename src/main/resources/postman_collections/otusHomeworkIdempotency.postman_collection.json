@@ -8,6 +8,22 @@
 	"item": [
 		{
 			"name": "createOrderForFirstUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log('Request', pm.request.toJSON());",
+							"console.log('Response', pm.response.toJSON());",
+							"",
+							"pm.test(\"Status test 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
