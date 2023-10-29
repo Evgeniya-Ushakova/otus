@@ -63,7 +63,7 @@
 * kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/secret.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml  -n evg
 * minikube service -n evg otus 
 
-* метод для создания заказа принимает на вход тело запроса, заголовок Idempotency-Key,
+* метод для создания заказа принимает на вход тело запроса и заголовок Idempotency-Key,
 * который генерируется на ~~воображаемой~~ странице создания заказа, по нажатию ~~воображаемой~~ кнопочки
 * возвращает айди заказа и данный ключ, при повторной попытке отправки этого же заказа будет возвращена ошибка, что заказ уже существует
 
