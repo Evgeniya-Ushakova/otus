@@ -24,5 +24,7 @@ public class UserResponse extends BaseResponse {
     private String email;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String phone;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long orderCount;
 
 }

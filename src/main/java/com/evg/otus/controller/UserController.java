@@ -25,7 +25,7 @@ public class UserController {
 
     @PostMapping("")
     public UserResponse create(@RequestBody @Valid @NonNull CreateUserRequest request) {
-        return userService.create(request);
+         userService.create(request);
     }
 
     @GetMapping(USER_PATH)

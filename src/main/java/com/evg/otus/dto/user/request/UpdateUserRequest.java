@@ -13,5 +13,6 @@ public class UpdateUserRequest {
     private String lastName;
     private String email;
     private String phone;
+    private Long orderCountToIncrease;
 
 }

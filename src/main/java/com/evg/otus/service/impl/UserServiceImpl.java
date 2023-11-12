@@ -15,6 +15,7 @@ import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse create(CreateUserRequest request) {
-        if(isUserExists(request.getEmail())) {
+        if (isUserExists(request.getEmail())) {
             throw new BadRequestException(ErrorMessageCode.DUPLICATE_DATA.getCode(),
                     String.format("User with email = %s already exists", request.getEmail()));
         }
@@ -83,6 +84,10 @@ public class UserServiceImpl implements UserService {
         Optional.ofNullable(request.getLastName()).ifPresent(user::setLastName);
         Optional.ofNullable(request.getEmail()).ifPresent(user::setEmail);
         Optional.ofNullable(request.getPhone()).ifPresent(user::setPhone);
+        if (Objects.nonNull(request.getOrderCountToIncrease())) {
+            long newOrderCount = user.getOrderCount() + request.orderCountToIncrease();
+            user.setOrderCount(newOrderCount);
+        }
 
         user = userRepository.save(user);
         return UserResponse.builder()
@@ -92,11 +97,17 @@ public class UserServiceImpl implements UserService {
                 .lastName(getParameter(request.getLastName(), user.getLastName()))
                 .email(getParameter(request.getEmail(), user.getEmail()))
                 .phone(getParameter(request.getPhone(), user.getPhone()))
+                .orderCount(getParameter(request.getOrderCountToIncrease(), user.getOrderCount()))
                 .build();
+
     }
 
     private String getParameter(String parameter, String savedParameter) {
         return StringUtils.isNotBlank(parameter) ? savedParameter : null;
+    }
+
+    private Long getParameter(Long parameter, Long savedParameter) {
+        return Objects.nonNull(parameter) ? savedParameter : null;
     }
 
 
