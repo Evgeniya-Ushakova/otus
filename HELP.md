@@ -52,7 +52,23 @@
 * helm repo update
 * helm install traefik traefik/traefik -f apigw/traefik/traefik.yaml -n evg
 * kubectl apply -f apigw/traefik/routes.yaml -f apigw/traefik/auth.yaml  -n evg
-* minikube service -n evg traefik 
+* minikube service -n evg traefik
+
+### Start idempotent order
+
+* Все команды в инструкции расчитаны на выполнение из корневой директории проекта /otus в неймспейсе evg
+* для простоты запуска здесь не используется сервис авторизации
+
+* kubectl create namespace evg
+* helm install evgpostgresdb -f kustomize/postgre-values.yaml oci://registry-1.docker.io/bitnamicharts/postgresql -n evg
+* kubectl apply -f kustomize/base/initDb.yaml -f kustomize/base/secret.yaml -f kustomize/base/deployment.yaml -f  kustomize/base/service.yaml  -n evg
+* minikube service -n evg otus 
+
+* метод для создания заказа принимает на вход тело запроса и заголовок Idempotency-Key,
+* который генерируется на ~~воображаемой~~ странице создания заказа, по нажатию ~~воображаемой~~ кнопочки
+* возвращает айди заказа и данный ключ, при повторной попытке отправки этого же заказа будет возвращена ошибка, что заказ уже существует
+* ~~воображаемая~~ кнопка не должна быть доступна для повторного нажатия, пока не будет получен ответ от реста, при успешном ответе форма чистится
+* заказ сохраняется в таблице order
 
 ### Start with ambassador
 

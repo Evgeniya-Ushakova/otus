@@ -9,6 +9,8 @@ public enum ErrorMessageCode {
 
     DATA_NOT_FOUND(1),
     DUPLICATE_DATA(2),
+
+    BAD_REQUEST(3),
     INTERNAL_SERVER_ERROR(99);
 
     int code;

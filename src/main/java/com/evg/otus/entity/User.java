@@ -24,5 +24,7 @@ public class User extends EntityBase<Long> {
     private String phone;
     @Column(name = "PASSWORD", columnDefinition = "VARCHAR(50)")
     private String password;
+    @Column(name = "ORDER_COUNT", columnDefinition = "BIGINT")
+    private Long orderCount;
 
 }

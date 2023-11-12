@@ -6,7 +6,7 @@ import com.evg.otus.dto.user.request.UpdateUserRequest;
 import com.evg.otus.dto.user.response.UserResponse;
 import com.evg.otus.entity.User;
 import com.evg.otus.enums.ErrorMessageCode;
-import com.evg.otus.exception.CommonException;
+import com.evg.otus.exception.BadRequestException;
 import com.evg.otus.repository.UserRepository;
 import com.evg.otus.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse create(CreateUserRequest request) {
         if(isUserExists(request.getEmail())) {
-            throw new CommonException(ErrorMessageCode.DUPLICATE_DATA.getCode(),
+            throw new BadRequestException(ErrorMessageCode.DUPLICATE_DATA.getCode(),
                     String.format("User with email = %s already exists", request.getEmail()));
         }
 
