@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public UserResponse create(CreateUserRequest request) {
         if (isUserExists(request.getEmail())) {
             throw new BadRequestException(ErrorMessageCode.DUPLICATE_DATA.getCode(),
@@ -85,12 +86,13 @@ public class UserServiceImpl implements UserService {
         Optional.ofNullable(request.getEmail()).ifPresent(user::setEmail);
         Optional.ofNullable(request.getPhone()).ifPresent(user::setPhone);
         if (Objects.nonNull(request.getOrderCountToIncrease())) {
-            long newOrderCount = user.getOrderCount() + request.orderCountToIncrease();
+            long newOrderCount = user.getOrderCount() + request.getOrderCountToIncrease();
             user.setOrderCount(newOrderCount);
         }
 
         user = userRepository.save(user);
         return UserResponse.builder()
+                .id(user.getId())
                 .code(SUCCESS_CODE)
                 .message("Updated succeed")
                 .firstName(getParameter(request.getFirstName(), user.getFirstName()))

@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor User
+participant "Order Service"
+participant "StoreHouse Service"
+participant "Billing Service"
+participant "Otus Service"
+database "DB"
+participant "Mail"
+participant "Kafka"
+participant "Camunda"
+participant "Delivery Service"
+
+User -> "Order Service" : Запрос отмены заказа
+activate "Order Service"
+
+
+alt #LawnGreen "Заказ успешно отменен"
+
+"Order Service" -> "DB" : Получить статус заказа
+"Order Service" -> "DB" : Перевести статус заказа: CANCELLING
+"Order Service" -> "Kafka" : Отправить сообщение об отмене заказа
+"Order Service" -> "Camunda" : Запустить подпроцесс отмены заказа - передать статус заказа, который был до отмены
+"Order Service" -> User : Отмена заказа  начата
+
+end
+
+deactivate "Order Service"
+
+@enduml

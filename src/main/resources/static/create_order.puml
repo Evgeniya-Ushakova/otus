@@ -1,0 +1,60 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor User
+participant "Order Service"
+participant "StoreHouse Service"
+participant "Billing Service"
+participant "Otus Service"
+database "DB"
+participant "Mail"
+participant "Kafka"
+participant "Camunda"
+
+User -> "Order Service" : Запрос создания заказа
+activate "Order Service"
+
+
+alt #LawnGreen "Заказ успешно создан"
+
+"Order Service" -> "DB" : Существует ли уже такой заказ?
+"DB" -> "Order Service" : Заказ новый
+'"Order Service" -> "StoreHouse Service" : Проверка наличия товара на сладе
+'"StoreHouse Service" -> "DB" : Проверить наличие товаров в бд
+'"DB" -> "StoreHouse Service" : Ответ бд: товары в наличии
+'"StoreHouse Service" -> "DB"  : Забронировать товары
+'"DB" -> "StoreHouse Service"  : Товары забронированы
+'"StoreHouse Service" -> "Order Service" : Товары в наличии - забронированы
+"Order Service" -> "DB" : Сохранить заказ в бд
+"Order Service" -> "Billing Service" : Оплатить заказ
+"Billing Service" -> "DB" : Проверить наличие средств и списать их со счета при наличии
+"DB" -> "Billing Service" : Средства списаны со счета
+"Billing Service" -> "Mail" : Отправка сообщения о списании средств на почту (async)
+"Billing Service" -> "Order Service" : Оплата прошла успешно
+"Order Service" -> "Otus Service" : Инкрементнуть количество заказов у пользователя
+"Otus Service" -> "Order Service" : Количество заказов у пользователя успешно изменено
+"Order Service" -> "Kafka": Отправить сообщении о создании заказа в кафку (async)
+"Order Service" -> "Camunda": Запустить процесс обработки заказа (async)
+"Order Service" -> "User" : Заказ создан
+
+else #Orange "На счете недостаточно средств для оплаты"
+'
+'"StoreHouse Service" -> "DB" : Проверить наличие товаров в бд
+'"DB" -> "StoreHouse Service" : Ответ бд: товары в наличии
+'"StoreHouse Service" -> "DB"  : Забронировать товары
+'"DB" -> "StoreHouse Service"  : Товары забронированы
+'"StoreHouse Service" -> "Order Service" : Товары в наличии - забронированы
+"Order Service" -> "DB" : Сохранить заказ в бд
+"Order Service" -> "Billing Service" : Оплатить заказ
+"Billing Service" -> "DB" : Проверить наличие средств и списать их со счета при наличии
+"DB" -> "Billing Service" : "На счете недостаточно средств для оплаты"
+"Billing Service" -> "Mail" : Отправка сообщения о попытке списания: недостаточно средств (async)
+"Billing Service" -> "Order Service" : "На счете недостаточно средств для оплаты"
+"Order Service" -> "StoreHouse Service" : Снять бронь товаров
+"Order Service" -> "User" : Заказ не создан: недостаточно средств
+
+end
+
+deactivate "Order Service"
+
+@enduml

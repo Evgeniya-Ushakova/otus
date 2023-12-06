@@ -5,6 +5,7 @@ import com.evg.otus.dto.user.request.CreateUserRequest;
 import com.evg.otus.dto.user.request.UpdateUserRequest;
 import com.evg.otus.dto.user.response.UserResponse;
 import com.evg.otus.service.AuthService;
+import com.evg.otus.service.BillingService;
 import com.evg.otus.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,13 @@ public class UserController {
 
     private final UserService userService;
     private final AuthService authService;
+    private final BillingService billingService;
 
     @PostMapping("")
     public UserResponse create(@RequestBody @Valid @NonNull CreateUserRequest request) {
-         userService.create(request);
+        UserResponse userResponse = userService.create(request);
+        billingService.createAccount(userResponse.getId());
+        return userResponse;
     }
 
     @GetMapping(USER_PATH)
@@ -43,10 +47,10 @@ public class UserController {
     }
 
     @PutMapping(USER_PATH)
-    public UserResponse update(@RequestHeader("x-auth-token") String authToken,
+    public UserResponse update(@RequestHeader(value = "x-auth-token", required = false) String authToken,
                                @PathVariable Long userId,
                                @Valid @NonNull @RequestBody UpdateUserRequest request) {
-        authService.checkAuth(authToken, userId);
+     //   authService.checkAuth(authToken, userId);
         return userService.update(userId, request);
     }
 

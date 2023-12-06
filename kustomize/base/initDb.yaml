@@ -20,16 +20,36 @@ spec:
           - |
             psql postgres://evguser:evgpwd@evgpostgresdb-postgresql/evg <<'EOF'
               create schema if not exists evg;
-              create sequence if not exists hibernate_sequence start 2;
               create table if not exists evg.user (id bigint primary key, name varchar, first_name varchar, last_name varchar, email varchar, phone varchar, password varchar, order_count bigint);
               insert into evg.user (id, name, first_name, last_name, email, phone, password, order_count) values (1, 'michael', 'stonebraker', null, 'ms@gmail.com', '+79000008080', 'mst', 0);
               insert into evg.user (id, name, first_name, last_name, email, phone, password, order_count) values (2, 'alex', 'n', null, 'alex@gmail.com', '+79000007070', 'alx', 0);
-              create table if not exists evg.order (id bigint  primary key, user_id bigint, order_key varchar, total_price decimal);
-              create table if not exists evg.product (id bigint  primary key, name varchar, description varchar, cost decimal);
-              insert into evg.product (id, name, description, cost) values (1, 'Лампа Алладина', 'Джин внутри исполнит три любых желания, может даже твои', 100.05);
-              insert into evg.product (id, name, description, cost) values (2, 'Ковер-самолет', 'Умчит прочь в Арабскую ночь', 75.05);
-              insert into evg.product (id, name, description, cost) values (3, 'Дом на колесах', 'Дом там, где ты', 1750687.89);
-              create table if not exists evg.order_compound (PRODUCT_ID BIGINT, ORDER_ID BIGINT, COUNT numeric);
+              
+              create schema if not exists s_order;
+              create table if not exists s_order.order (id bigint  primary key, user_id bigint, order_key varchar, total_price decimal, status varchar);
+              create table if not exists s_order.order_compound (PRODUCT_ID BIGINT, ORDER_ID BIGINT, COUNT numeric);
+              
+              create schema if not exists storehouse;
+              create table if not exists storehouse.product (id bigint  primary key, name varchar, description varchar, cost decimal, count bigint);
+              insert into storehouse.product (id, name, description, cost, count) values (1, 'Лампа Алладина', 'Джин внутри исполнит три любых желания, может даже твои', 100.05, 15);
+              insert into storehouse.product (id, name, description, cost, count) values (2, 'Ковер-самолет', 'Умчит прочь в Арабскую ночь', 75.05, 56);
+              insert into storehouse.product (id, name, description, cost, count) values (3, 'Дом на колесах', 'Дом там, где ты', 1750687.89, 2);
+              create table if not exists storehouse.product_reservation (id bigint  primary key, product_id bigint, order_id bigint, count bigint, status varchar);
+            
+              create schema if not exists billing;
+              create table if not exists billing.account (id bigint  primary key, user_id bigint, amount decimal);
+              create unique index account_user_idx on billing.account (user_id);
+              insert into billing.account (id, user_id, amount) values (1, 1, 1000);
+              insert into billing.account (id, user_id, amount) values (2, 2, 1500000);
+              
+              create schema if not exists delivery;
+              create table if not exists delivery.courier (id bigint primary key, name varchar, surname varchar, last_name varchar, status varchar);
+              insert into delivery.courier (id, name, surname, last_name, status) values (1, 'Хохо', 'Хохотушкин', 'Хохотушничек', 'SPARE');
+              insert into delivery.courier (id, name, surname, last_name, status) values (2, 'Доктор', 'Работник', 'Злодей', 'SPARE');
+              insert into delivery.courier (id, name, surname, status) values (3, 'Знайка', 'Зазанайка', 'SPARE');
+              create table if not exists delivery.delivery_detail (id bigint primary key, courier_id bigint, time_from timestamp, time_to timestamp, status varchar, order_id bigint, address varchar);
+              
+              create schema if not exists camunda;
+              create sequence if not exists hibernate_sequence start 2;
             EOF
 
   backoffLimit: 0
